@@ -1,7 +1,7 @@
 <?php
 	
-	function isNull($nombre, $user, $pass, $pass_con, $email){
-		if(strlen(trim($nombre)) < 1 || strlen(trim($user)) < 1 || strlen(trim($pass)) < 1 || strlen(trim($pass_con)) < 1 || strlen(trim($email)) < 1)
+	function isNull($nombre, $user, $pass, $pass_con, $email,$edad,$genero){
+		if(strlen(trim($nombre)) < 1 || strlen(trim($user)) < 1 || strlen(trim($pass)) < 1 || strlen(trim($pass_con)) < 1 || strlen(trim($email)) < 1 || strlen(trim($edad))< 1 || strlen(trim($genero)) <1)
 		{
 			return true;
 			} else {
@@ -105,12 +105,12 @@
 		}
 	}
 	
-	function registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario){
+	function registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero){
 		
 		global $mysqli;
 		
-		$stmt = $mysqli->prepare("INSERT INTO usuarios (usuario, password, nombre, correo, activacion, token, id_tipo) VALUES(?,?,?,?,?,?,?)");
-		$stmt->bind_param('ssssisi', $usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario);
+		$stmt = $mysqli->prepare("INSERT INTO usuarios (usuario, password, nombre, correo, activacion, token, id_tipo,edad,genero) VALUES(?,?,?,?,?,?,?,?,?)");
+		$stmt->bind_param('ssssisiis', $usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero);
 		
 		if ($stmt->execute()){
 			return $mysqli->insert_id;
@@ -126,14 +126,14 @@
 		$mail = new PHPMailer();
 		$mail->isSMTP();
 		$mail->SMTPAuth = true;
-		$mail->SMTPSecure = 'tipo de seguridad';
-		$mail->Host = 'smtp.hosting.com';
-		$mail->Port = 'puerto';
+		$mail->SMTPSecure = 'tls';
+		$mail->Host = 'smtp.gmail.com';
+		$mail->Port = '587';
 		
-		$mail->Username = 'felipe00@live.com.mx';
-		$mail->Password = 'S0p0rt3-l0c4l';
+		$mail->Username = 'f.prieto.escom@gmail.com';
+		$mail->Password = 'N3tw0rkcrac$';
 		
-		$mail->setFrom('felipe00@live.com.mx', 'Sistema de Usuarios');
+		$mail->setFrom('f.prieto.escom@gmail.com', 'Sistema de Usuarios');
 		$mail->addAddress($email, $nombre);
 		
 		$mail->Subject = $asunto;

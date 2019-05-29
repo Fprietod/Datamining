@@ -12,17 +12,19 @@ if(!empty($_POST))
     $password = $mysqli->real_escape_string($_POST['password']);
     $con_password = $mysqli->real_escape_string($_POST['con_password']);
     $email = $mysqli->real_escape_string($_POST['email']);
-    $captcha = $mysqli->real_escape_string($_POST['g-recaptcha-response']);
+    $edad = $mysqli->real_escape_string($_POST['edad']);
+    $genero = $mysqli->real_escape_string($_POST['genero']);
+    // $captcha = $mysqli->real_escape_string($_POST['g-recaptcha-response']);
    
 
     $activo =0;
     $tipo_usuario =2;
     $secret = '6Lem8aUUAAAAALuiRt-Ml2OSY4Myo5rGXH-qScqP';
 
-    if($captcha){
-      $errors[] = "Por favor verifica el captcha";
-    }
-        if(isNull($nombre, $usuario, $password, $con_password, $email))
+    // if($captcha){
+    //   $errors[] = "Por favor verifica el captcha";
+    // }
+        if(isNull($nombre, $usuario, $password, $con_password, $email,$edad,$genero))
     {
       $errors[] = "Debe llenar todos los campos";
     }
@@ -48,9 +50,9 @@ if(!empty($_POST))
     if(count($errors) == 0)
     {
       
-      $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha");
+      // $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha");
       
-      $arr = json_decode($response, TRUE);
+      // $arr = json_decode($response, TRUE);
       
       // if($arr['succes'])
       // {
@@ -58,7 +60,7 @@ if(!empty($_POST))
         $pass_hash = hashPassword($password);
         $token = generateToken();
         
-        $registro = registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario);     
+        $registro = registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero);     
         if($registro > 0)
         {       
           $url = 'http://'.$_SERVER["SERVER_NAME"].'/startbootstrap-sb-admin-2-gh-pages/activar.php?id='.$registro.'&val='.$token;
@@ -69,10 +71,10 @@ if(!empty($_POST))
           if(enviarEmail($email, $nombre, $asunto, $cuerpo)){
             
             echo "Para terminar el proceso de registro siga las instrucciones que le hemos enviado la direccion de correo electronico: $email";
-            echo "<br><a href='index.html' >Iniciar Sesion</a>";
+             echo "<br><a href='index.html' >Iniciar Sesion</a>";
             exit;
-            } else {
-            $erros[] = "Error al enviar Email";
+            }else {
+            $errors[] = "Error al enviar Email";
           }
           
           } else {
@@ -82,8 +84,9 @@ if(!empty($_POST))
       //   } else {
       //   $errors[] = 'Error al comprobar Captcha';
       // }
+      }
 }
-}
+
 
 
 
@@ -122,6 +125,7 @@ if(!empty($_POST))
   background-color: #000000;
 
   background-size: cover;
+
 }
 </style>
 
@@ -134,7 +138,7 @@ if(!empty($_POST))
         <div class="panel panel-info">
           <div class="panel-heading">
             <div class="panel-title">Reg&iacute;strate</div>
-            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="index.php">Iniciar Sesi&oacute;n</a></div>
+            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="../index_oiginal.html">Iniciar Sesi&oacute;n</a></div>
           </div>  
           
           <div class="panel-body" >
@@ -180,11 +184,24 @@ if(!empty($_POST))
                   <input type="email" class="form-control" name="email" placeholder="Email" value="<?php if(isset($email)) echo $email; ?>" required>
                 </div>
               </div>
-              
               <div class="form-group">
+                <label for ="edad" class="col-md control-label">Edad</label>
+                <div class="col-md-9">
+                  <input type="edad" class="form-control" name="edad" placeholder="Escriba su edad" value="<?php if(isset($edad)) echo $edad; ?>" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for ="Género" class="col-md control-label">Género</label>
+                <div class="col-md-9">
+                  <input type="genero" class="form-control" name="genero" placeholder="Hombre o Mujer">
+                </div>
+              </div>
+
+              
+              <!-- <div class="form-group">
                 <label for="captcha" class="col-md-3 control-label"></label>
                 <div class="g-recaptcha col-md-9" data-sitekey="6Lem8aUUAAAAAC6b9OVAKTXr67gzrWJEkHG8L0LY"></div>
-              </div>
+              </div> -->
               
               <div class="form-group">                                      
                 <div class="col-md-offset-3 col-md-9">
