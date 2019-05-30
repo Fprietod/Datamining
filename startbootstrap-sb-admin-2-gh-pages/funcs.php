@@ -135,8 +135,8 @@
 		$mail->Host = 'smtp.live.com';
 		$mail->Port = '25';
 		
-		$mail->Username = 'felipe00@live.com.mx';
-		$mail->Password = 'S0p0rt3-l0c4l';
+		$mail->Username = 'thekiller_117@hotmail.com';
+		$mail->Password = 'reconhelmet';
 		
 		$mail->setFrom('felipe00@live.com.mx', 'Sistema de Usuarios');
 		$mail->addAddress($email, $nombre);
