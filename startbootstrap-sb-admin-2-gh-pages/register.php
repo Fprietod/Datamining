@@ -14,6 +14,10 @@ if(!empty($_POST))
     $email = $mysqli->real_escape_string($_POST['email']);
     $edad = $mysqli->real_escape_string($_POST['edad']);
     $genero = $mysqli->real_escape_string($_POST['genero']);
+    $boletos = $mysqli->real_escape_string($_POST['boletos']);
+    $tarjeta = $mysqli->real_escape_string($_POST['tarjeta']);
+    $evento = $mysqli->real_escape_string($_POST['evento']);
+     $tipo_boleto = $mysqli->real_escape_string($_POST['tipo_boleto']);
     // $captcha = $mysqli->real_escape_string($_POST['g-recaptcha-response']);
    
 
@@ -24,7 +28,7 @@ if(!empty($_POST))
     // if($captcha){
     //   $errors[] = "Por favor verifica el captcha";
     // }
-        if(isNull($nombre, $usuario, $password, $con_password, $email,$edad,$genero))
+        if(isNull($nombre, $usuario, $password, $con_password, $email,$edad,$genero,$boletos,$tarjeta,$evento,$tipo_boleto))
     {
       $errors[] = "Debe llenar todos los campos";
     }
@@ -60,10 +64,10 @@ if(!empty($_POST))
         $pass_hash = hashPassword($password);
         $token = generateToken();
         
-        $registro = registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero);     
+        $registro = registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero,$boletos,$tarjeta,$evento,$tipo_boleto);     
         if($registro > 0)
         {       
-          $url = 'http://'.$_SERVER["SERVER_NAME"].'/startbootstrap-sb-admin-2-gh-pages/activar.php?id='.$registro.'&val='.$token;
+          $url = 'http://'.$_SERVER["SERVER_NAME"].'/pagina/activar.php?id='.$registro.'&val='.$token;
           
           $asunto = 'Activar Cuenta - Sistema de Usuarios';
           $cuerpo = "Estimado $nombre: <br /><br />Para continuar con el proceso de registro, es indispensable de click en la siguiente liga <a href='$url'>Activar Cuenta</a>";
@@ -74,7 +78,7 @@ if(!empty($_POST))
              echo "<br><a href='index.html' >Iniciar Sesion</a>";
             exit;
             }else {
-            $errors[] = "Error al enviar Email";
+            $errors[] = "Compra realizada";
           }
           
           } else {
@@ -123,7 +127,7 @@ if(!empty($_POST))
 }
 .fondo {
   background-color: #000000;
-
+background: url("http://territorioinformativo.com/wp-content/uploads/2016/08/CC2016_TerritorioInformativo.jpg");
   background-size: cover;
 
 }
@@ -138,7 +142,7 @@ if(!empty($_POST))
         <div class="panel panel-info">
           <div class="panel-heading">
             <div class="panel-title">Reg&iacute;strate</div>
-            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="../index_oiginal.html">Iniciar Sesi&oacute;n</a></div>
+            <!-- <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="../index_oiginal.html">Iniciar Sesi&oacute;n</a></div> -->
           </div>  
           
           <div class="panel-body" >
@@ -202,10 +206,34 @@ if(!empty($_POST))
                 <label for="captcha" class="col-md-3 control-label"></label>
                 <div class="g-recaptcha col-md-9" data-sitekey="6Lem8aUUAAAAAC6b9OVAKTXr67gzrWJEkHG8L0LY"></div>
               </div> -->
+               <div class="form-group">
+                <label for="evento" class="col-md-3 control-label"></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="evento" placeholder="¿Qué evento ira?" value="<?php if(isset($evento)) echo $evento; ?>" required >
+                </div>
+              </div>
+                 <div class="form-group">
+                <label for="boletos" class="col-md-3 control-label"></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="boletos" placeholder="¿Cúantos boletos desea?" value="<?php if(isset($boletos)) echo $boletos; ?>" required >
+                </div>
+              </div>
+               <div class="form-group">
+                <label for="" class="col-md-3 control-label"></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="tipo_boleto" placeholder="¿General o VIP?" value="<?php if(isset($tipo_boleto)) echo $tipo_boleto; ?>" required >
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-md-3 control-label"></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="tarjeta" placeholder="Por favor inserte su tarjeta" value="<?php if(isset($tarjeta)) echo $tarjeta; ?>" required >
+                </div>
+              </div>
               
               <div class="form-group">                                      
                 <div class="col-md-offset-3 col-md-9">
-                  <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i>Registrar</button> 
+                  <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i>Registrar y comprar</button> 
                 </div>
               </div>
             </form>

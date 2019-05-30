@@ -1,7 +1,12 @@
 <?php
+
+
+
+
+
 	
-	function isNull($nombre, $user, $pass, $pass_con, $email,$edad,$genero){
-		if(strlen(trim($nombre)) < 1 || strlen(trim($user)) < 1 || strlen(trim($pass)) < 1 || strlen(trim($pass_con)) < 1 || strlen(trim($email)) < 1 || strlen(trim($edad))< 1 || strlen(trim($genero)) <1)
+	function isNull($nombre, $user, $pass, $pass_con, $email,$edad,$genero,$evento,$boletos,$tarjeta,$tipo_boleto){
+		if(strlen(trim($nombre)) < 1 || strlen(trim($user)) < 1 || strlen(trim($pass)) < 1 || strlen(trim($pass_con)) < 1 || strlen(trim($email)) < 1 || strlen(trim($edad))< 1 || strlen(trim($genero)) <1 || strlen(trim($evento)) < 1 || strlen(trim($boletos))<1 || strlen(trim($tarjeta)) ==16 || strlen(trim($tipo_boleto))< 1) 
 		{
 			return true;
 			} else {
@@ -105,12 +110,12 @@
 		}
 	}
 	
-	function registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero){
+	function registraUsuario($usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero,$boletos,$evento,$tarjeta,$tipo_boleto){
 		
 		global $mysqli;
 		
-		$stmt = $mysqli->prepare("INSERT INTO usuarios (usuario, password, nombre, correo, activacion, token, id_tipo,edad,genero) VALUES(?,?,?,?,?,?,?,?,?)");
-		$stmt->bind_param('ssssisiis', $usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero);
+		$stmt = $mysqli->prepare("INSERT INTO usuarios (usuario, password, nombre, correo, activacion, token, id_tipo,edad,genero,boletos,evento,tarjeta,tipo_boleto) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		$stmt->bind_param('ssssisiisisss', $usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero,$boletos,$evento,$tarjeta,$tipo_boleto);
 		
 		if ($stmt->execute()){
 			return $mysqli->insert_id;
@@ -127,13 +132,13 @@
 		$mail->isSMTP();
 		$mail->SMTPAuth = true;
 		$mail->SMTPSecure = 'tls';
-		$mail->Host = 'smtp.gmail.com';
-		$mail->Port = '587';
+		$mail->Host = 'smtp.live.com';
+		$mail->Port = '25';
 		
-		$mail->Username = 'f.prieto.escom@gmail.com';
-		$mail->Password = 'N3tw0rkcrac$';
+		$mail->Username = 'felipe00@live.com.mx';
+		$mail->Password = 'S0p0rt3-l0c4l';
 		
-		$mail->setFrom('f.prieto.escom@gmail.com', 'Sistema de Usuarios');
+		$mail->setFrom('felipe00@live.com.mx', 'Sistema de Usuarios');
 		$mail->addAddress($email, $nombre);
 		
 		$mail->Subject = $asunto;
