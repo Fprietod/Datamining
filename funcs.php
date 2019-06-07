@@ -114,8 +114,8 @@
 		
 		global $mysqli;
 		
-		$stmt = $mysqli->prepare("INSERT INTO usuarios (usuario, password, nombre, correo, activacion, token, id_tipo,edad,genero,evento,boletos,tipo_boleto,tarjeta) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		$stmt->bind_param('ssssiiiissssi', $usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero,$boletos,$evento,$tarjeta,$tipo_boleto);
+		$stmt = $mysqli->prepare("INSERT INTO usuarios (usuario, password, nombre, correo, activacion, token, id_tipo,edad,genero,boletos,evento,tarjeta,tipo_boleto) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		$stmt->bind_param('ssssisiisisss', $usuario, $pass_hash, $nombre, $email, $activo, $token, $tipo_usuario,$edad,$genero,$boletos,$evento,$tarjeta,$tipo_boleto);
 		
 		if ($stmt->execute()){
 			return $mysqli->insert_id;
@@ -135,8 +135,8 @@
 		$mail->Host = 'smtp.live.com';
 		$mail->Port = '25';
 		
-		$mail->Username = '';
-		$mail->Password = 'S0p0rt3-l0c4l';
+		$mail->Username = 'thekiller_117@hotmail.com';
+		$mail->Password = 'reconhelmet';
 		
 		$mail->setFrom('felipe00@live.com.mx', 'Sistema de Usuarios');
 		$mail->addAddress($email, $nombre);
